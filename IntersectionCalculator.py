@@ -31,6 +31,31 @@ def FindIntersectionWithPoints(pointsForLine1, pointsForLine2):
     line2 = EquationOfLine(pointsForLine2[0], pointsForLine2[1])
     return FindIntersection(line1,line2)
 
+def FindDistanceBetweenPoints(a, b):
+    return math.dist(a,b)
+
+def FindNearestPoint(listOfPoints, point):
+    smallestDistance = None
+    smallestPoint = None
+    for p in listOfPoints:
+        distance = FindDistanceBetweenPoints(p, point)
+        if smallestDistance == None or smallestDistance > distance:
+            smallestDistance = distance
+            smallestPoint = p
+    return smallestPoint
+
+def FindEdgePoints(listOfPoints, canvasSize):
+    topLeft = (0,0)
+    topRight = (0, canvasSize[0])
+    bottomLeft = (canvasSize[1], 0)
+    bottomRight = (canvasSize[1], canvasSize[0])
+    extremePoints = []
+    extremePoints.append(FindNearestPoint(listOfPoints, topLeft))
+    extremePoints.append(FindNearestPoint(listOfPoints, topRight))
+    extremePoints.append(FindNearestPoint(listOfPoints, bottomLeft))
+    extremePoints.append(FindNearestPoint(listOfPoints, bottomRight))
+    return extremePoints
+
 def Testing():
     line1 = EquationOfLine([5,7],[6,3])
     print(EquationOfLine([5,7],[6,3]))

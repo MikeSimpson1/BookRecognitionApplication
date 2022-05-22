@@ -9,16 +9,21 @@ def FindIntersections(pointsLines):
     for i in range(len(pointsLines)):
         for j in range(len(pointsLines)):
             intersects.append(ic.FindIntersectionWithPoints(pointsLines[i],pointsLines[j]))
+    while([0,0] in intersects):
+        intersects.remove([0,0])
     return intersects
 
 kernel = np.ones((5,5))
 
-img = cv2.imread('C:/Users/Mike/Desktop/BookAppraisalApplication/book.jpg')
+img = cv2.imread('C:/Users/Mike/Desktop/BookAppraisalApplication/book3.jpg')
+img = cv2.resize(img,(1000,1200))
+print(img.shape[0])
 gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 blur = cv2.GaussianBlur(gray_img,(7,7),0)
 
-_, threshold = cv2.threshold(blur, 75, 255, cv2.THRESH_BINARY_INV)
-edges = cv2.Canny(threshold, 80, 255)
+_, threshold = cv2.threshold(blur, 90, 255, cv2.THRESH_BINARY_INV)
+edges = cv2.Canny(threshold, 70, 255)
+cv2.imshow("eee", threshold)
 # Copy edges to the images that will display the results in BGR
 cdst = cv2.cvtColor(edges, cv2.COLOR_GRAY2BGR)
 cdstP = np.copy(cdst)
@@ -59,14 +64,11 @@ cv2.imshow("contours", blank_image)
 image = np.zeros_like(img , dtype = np.uint8)
 
 intersections = FindIntersections(pointLines)
-print(image.shape)
-for i in intersections:
-    x = math.floor(i[0])
-    y = math.floor(i[1])
-    print(x)
-    if (not(x < 0 or x > image.shape[1] or y < 0 or y > image.shape[0])):
-        print(x)
-        img = cv2.circle(img, (x,y), radius=5, color=(255,0,0), thickness=-1)
-image = cv2.dilate(image,kernel, iterations=1)
-cv2.imshow("contours", img)
+intersections = np.float32(ic.FindEdgePoints(intersections, image.shape))
+print(intersections)
+
+resizeSize = np.float32([[0,0], [0, image.shape[0]],[image.shape[1], 0], [image.shape[1], image.shape[0]]])
+matrix = cv2.getPerspectiveTransform(intersections, resizeSize)
+outputImg = cv2.warpPerspective(img, matrix, (image.shape[1], image.shape[0]))
+cv2.imshow("warped", outputImg)
 cv2.waitKey()
