@@ -15,7 +15,7 @@ def FindIntersections(pointsLines):
 
 kernel = np.ones((5,5))
 
-img = cv2.imread('C:/Users/Mike/Desktop/BookAppraisalApplication/book3.jpg')
+img = cv2.imread('C:/Users/Mike/Desktop/BookAppraisalApplication/book.jpg')
 img = cv2.resize(img,(1000,1200))
 print(img.shape[0])
 gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -71,4 +71,5 @@ resizeSize = np.float32([[0,0], [0, image.shape[0]],[image.shape[1], 0], [image.
 matrix = cv2.getPerspectiveTransform(intersections, resizeSize)
 outputImg = cv2.warpPerspective(img, matrix, (image.shape[1], image.shape[0]))
 cv2.imshow("warped", outputImg)
+cv2.imwrite("C:/Users/Mike/Desktop/BookAppraisalApplication/bookCover.jpg", outputImg)
 cv2.waitKey()
