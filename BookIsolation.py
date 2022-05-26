@@ -13,11 +13,29 @@ def FindIntersections(pointsLines):
         intersects.remove([0,0])
     return intersects
 
+def SaveProcessedBookCover(img):
+    filename = 'ProcessedBookCovers/currBookNumber.txt'
+    currentNum = None
+    try:
+        with open(filename, "r") as f:
+            c = f.read()
+            currentNum = int(c)+1
+            f.close()
+            f = open(filename, "w")
+            f.write(str(currentNum))
+            f.close()
+    except FileNotFoundError:
+        f = open(filename, "x")
+        f.write("0")
+        f.close()
+        currentNum = 0
+    imgName = "bookCover" + str(currentNum) + ".jpg"
+    cv2.imwrite("ProcessedBookCovers/" + imgName, outputImg)
+
 kernel = np.ones((5,5))
 
-img = cv2.imread('C:/Users/Mike/Desktop/BookAppraisalApplication/book.jpg')
+img = cv2.imread('book.jpg')
 img = cv2.resize(img,(1000,1200))
-print(img.shape[0])
 gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 blur = cv2.GaussianBlur(gray_img,(7,7),0)
 
@@ -65,11 +83,10 @@ image = np.zeros_like(img , dtype = np.uint8)
 
 intersections = FindIntersections(pointLines)
 intersections = np.float32(ic.FindEdgePoints(intersections, image.shape))
-print(intersections)
 
 resizeSize = np.float32([[0,0], [0, image.shape[0]],[image.shape[1], 0], [image.shape[1], image.shape[0]]])
 matrix = cv2.getPerspectiveTransform(intersections, resizeSize)
 outputImg = cv2.warpPerspective(img, matrix, (image.shape[1], image.shape[0]))
 cv2.imshow("warped", outputImg)
-cv2.imwrite("C:/Users/Mike/Desktop/BookAppraisalApplication/bookCover.jpg", outputImg)
+SaveProcessedBookCover(outputImg)
 cv2.waitKey()
