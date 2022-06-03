@@ -29,9 +29,9 @@ def compareImages(img1, img2):
     nums.append(structural_sim(img2,img1))
     return nums
 
-img1 = cv2.imread('C:/Users/Mike/Desktop/BookAppraisalApplication/book.jpg')
-img2 = cv2.imread('C:/Users/Mike/Desktop/BookAppraisalApplication/petSematary.jpg')
-computeS = compareImages(img1, img2)
-print("ORB similarity is:", computeS[0])
-
-print("Structural Sim is:", computeS[1])
+def Test():
+    img1 = cv2.imread('C:/Users/Mike/Desktop/BookAppraisalApplication/book.jpg')
+    img2 = cv2.imread('C:/Users/Mike/Desktop/BookAppraisalApplication/petSematary.jpg')
+    computeS = compareImages(img1, img2)
+    print("ORB similarity is:", computeS[0])
+    print("Structural Sim is:", computeS[1])
