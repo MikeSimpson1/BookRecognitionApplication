@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"/>
     <Button
         android:id="@+id/send_image_btn"
-        android:text="Send Image"
+        android:text="Process Image"
         style="@style/Base.Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
