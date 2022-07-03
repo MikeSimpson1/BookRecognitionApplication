@@ -9,13 +9,14 @@ def CompareAllImages(processedBookCover):
     comparisonData = []
     for fileName in imageNames:
         bookCover = cv2.imread('C:/Users/Mike/Desktop/BookAppraisalApplication/BookCovers/' + fileName)
-        comparisonData.append([iCompare.compareImages(bookCover, processedBookCover), fileName])
+        if bookCover is not None:
+            comparisonData.append([iCompare.compareImages(bookCover, processedBookCover), fileName])
     return comparisonData
 
 def ProcessImage(img):
     return bIsolate.IsolateBookCover(img)
 
-def FindBestMatch(arr):
+def FindBestMatch(arr): #needs changing for different parameters
     best = None
     for nums in arr:
         if best == None or nums[0][0] > best[0][0]:
