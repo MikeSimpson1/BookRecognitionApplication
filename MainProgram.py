@@ -19,10 +19,10 @@ def ProcessImage(img):
 def FindBestMatch(arr): #needs changing for different parameters
     best = None
     for nums in arr:
-        if best == None or nums[0][0] > best[0][0]:
+        if best == None or nums[0][0] > best[0][0] or nums[0][1] > best[0][1]:
             best = nums
     return best[1]
 
-img = ProcessImage('C:/Users/Mike/Desktop/BookAppraisalApplication/book2.png')
+img = ProcessImage('C:/Users/Mike/Desktop/BookAppraisalApplication/book3.jpg')
 a = CompareAllImages(img)
 print(FindBestMatch(a))

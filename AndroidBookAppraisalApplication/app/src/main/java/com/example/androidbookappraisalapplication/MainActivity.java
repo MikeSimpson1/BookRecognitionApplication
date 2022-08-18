@@ -17,12 +17,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
 public class MainActivity extends AppCompatActivity {
     private static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
     Button mCaptureBtn;
     Button mSendImgBtn;
     ImageView mImageView;
+    byte[] byteArray;
 
     Uri image_uri;
     @Override
@@ -98,7 +104,29 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             mImageView.setImageURI(image_uri);
             mSendImgBtn.setEnabled(true);
+            InputStream iStream = null;
+            byte[] inputData = null;
+            try {
+                iStream = getContentResolver().openInputStream(image_uri);
+                inputData = getBytes(iStream);
+                if (inputData != null){
+                    byteArray = inputData;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+    }
+    public byte[] getBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+
+        int len = 0;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
     }
 
 }

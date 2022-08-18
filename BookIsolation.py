@@ -48,7 +48,7 @@ def IsolateBookCover(fileName):
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     blur = cv2.GaussianBlur(gray_img,(7,7),0)
 
-    _, threshold = cv2.threshold(blur, 90, 255, cv2.THRESH_BINARY_INV)
+    _, threshold = cv2.threshold(blur, 120, 255, cv2.THRESH_BINARY_INV)
     edges = cv2.Canny(threshold, 70, 255)
     #cv2.imshow("eee", threshold)
     # Copy edges to the images that will display the results in BGR
@@ -98,5 +98,5 @@ def IsolateBookCover(fileName):
     outputImg = cv2.warpPerspective(img, matrix, (image.shape[1], image.shape[0]))
     #cv2.imshow("warped", outputImg)
     SaveImages(img, outputImg)
-    return outputImg
     #cv2.waitKey()
+    return outputImg

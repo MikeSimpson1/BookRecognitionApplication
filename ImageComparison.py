@@ -11,7 +11,6 @@ def orb_sim(img1, img2):
     _, desc1 = orb.detectAndCompute(img1, None)
     _, desc2 = orb.detectAndCompute(img2, None)
     bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
-
     matches = bf.match(desc1, desc2)
     similar_regions = [i for i in matches if i.distance < 50]
     if len(matches) == 0:
@@ -31,7 +30,7 @@ def compareImages(img1, img2):
 
 def Test():
     img1 = cv2.imread('C:/Users/Mike/Desktop/BookAppraisalApplication/book.jpg')
-    img2 = cv2.imread('C:/Users/Mike/Desktop/BookAppraisalApplication/petSematary.jpg')
+    img2 = cv2.imread('C:/Users/Mike/Desktop/BookAppraisalApplication/institute.jpg')
     computeS = compareImages(img1, img2)
     print("ORB similarity is:", computeS[0])
     print("Structural Sim is:", computeS[1])
