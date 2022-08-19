@@ -40,10 +40,13 @@ def SaveProcessedBookCover(img, num):
     imgName = "processedBookCover" + str(num) + ".jpg"
     cv2.imwrite("C:/Users/Mike/Desktop/BookAppraisalApplication/ProcessedBookCovers/" + imgName, img)
 
-def IsolateBookCover(fileName):
+def IsolateBookCover(fileName, inputtedImage):
     kernel = np.ones((5,5))
+    if (inputtedImage is not None):
+        img = inputtedImage
+    else:
+        img = cv2.imread(fileName)
 
-    img = cv2.imread(fileName)
     img = cv2.resize(img,(1000,1200))
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     blur = cv2.GaussianBlur(gray_img,(7,7),0)
